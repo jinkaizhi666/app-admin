@@ -1,0 +1,46 @@
+@box-shadow-base : 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+0 9px 28px 8px rgba(0, 0, 0, 0.05);
+.header {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fddd9b;
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+    h1 {
+        padding-left: 20px;
+        font-size: 30px;
+        color: white;
+    }
+    .react-based {
+        position: absolute;
+        right: 50px;
+        bottom: 10px;
+        span {
+            font-size: 20px;
+        }
+        img {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+        }
+    }
+}
+
+.content {
+    width: 25%;
+    margin: 40px auto;
+    background-color:#cfe8fc;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: @box-shadow-base;
+    .submit-btn-wrap {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
