@@ -3,12 +3,15 @@ import { Layout } from "antd";
 import LeftNav from "../../components/left-nav";
 import Header from '../../components/header'
 // 管理页面
-import Category from '../category'
-import Production from '../production'
+import ProductionCategory from '../production/category'
+import Production from '../production/goods-manage'
+import GoodsDetail from '../production/goods-detail'
+import GoodsEdit from '../production/GoodsEdit'
 import User from '../user'
 import Role from '../role'
 import Home from '../home'
 import Job from '../job'
+import JobCategory from '../job/category'
 
 import {Route, Switch, Redirect} from 'react-router-dom'
 
@@ -23,14 +26,17 @@ export default class Admin extends Component {
         </Sider>
         <Layout style={{backgroundColor: 'white'}}>
           <Header style={{backgroundColor: '#f0f2f5', padding: '10px'}} />
-          <Content style={{margin: '10px 0 10px 0', padding: '10px', backgroundColor: '#f0f2f5'}}>
+          <Content style={{margin: '10px 0 10px 0', padding: '10px', backgroundColor: '#f0f2f5', overflowY: 'scroll'}}>
           <Switch>
-                <Route path="/production/category-manage" component={Category} />
+                <Route path="/production/category-manage" component={ProductionCategory} />
+                <Route path="/production/manage/detail" exact component={GoodsDetail} />
+                <Route path="/production/manage" exact component={Production} />
+                <Route path="/production/manage/edit" exact component={GoodsEdit} />
                 <Route path="/role" component={Role} />
-                <Route path="/production" component={Production} />
                 <Route path="/user" component={User} />
                 <Route path="/home" component={Home} />
-                <Route path="/job" component={Job} />
+                <Route path="/job" exact component={Job} />
+                <Route path="/job/category-manage" component={JobCategory} />
                 <Redirect to="/login" />
               </Switch>
           </Content>

@@ -17,7 +17,7 @@ module.exports = [
             {
                 title: '商品管理',
                 icon: '',
-                key: '/production/production-manage'
+                key: '/production/manage'
             }
         ]
     },

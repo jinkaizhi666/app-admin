@@ -1,18 +1,12 @@
 import axios from 'axios'
 import store from 'store'
 import {message} from 'antd'
+import config from '../config/config'
 
-const ENV = 'dev'
-
-let baseURL
-if(ENV == 'dev') {
-    baseURL = 'http://localhost:7001/admin'
-}else {
-    baseURL = 'app.vksure.com/admin'
-}
+let {baseUrl} = config
 let token = store.get('token')
 
-axios.defaults.baseURL = baseURL
+axios.defaults.baseUrl = baseUrl
 axios.defaults.headers.token = token || ''
 
 axios.interceptors.request.use(function(config) {
@@ -27,5 +21,6 @@ axios.interceptors.response.use(function(res) {
     }
 }, function(err) {
     message.error('网络出错了')
+    return err
 })
 export default axios

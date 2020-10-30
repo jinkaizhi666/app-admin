@@ -75,7 +75,7 @@ function genMenu(menuList) {
           </Menu.Item>
         ) 
       } else {
-        let childRoute = item.children.find(item => item.key == path)
+        let childRoute = item.children.find(item => path.startsWith(item.key) )
         if(childRoute) {
             this.openKey = item.key
         }
@@ -97,6 +97,8 @@ function genMenu(menuList) {
 
   render() {
     let path = this.props.location.pathname
+    let reg = /(\/.{1,}\/.)\//
+    console.log(path, reg.test(path))
     return (
       <div>
         <header className="admin-header-logo">
@@ -105,7 +107,7 @@ function genMenu(menuList) {
         </header>
 
         <Menu
-          selectedKeys={[path]}
+          selectedKeys={[this.openKey]}
           defaultOpenKeys={[this.openKey]}
           mode="inline"
           theme="dark"

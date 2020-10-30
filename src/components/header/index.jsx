@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import './style.less'
 import menuList from '../../config/menuConfig'
-import {Modal, Breadcrumb } from 'antd'
+import {Modal } from 'antd'
+import {ArrowLeftOutlined} from '@ant-design/icons'
 import LinkButton from '../../components/link-button'
 
  class Header extends Component {
@@ -42,11 +43,14 @@ import LinkButton from '../../components/link-button'
                    <LinkButton onClick={this.logout}>退出</LinkButton>
                </div> 
                <div className="header-line2">
-                   <span>{title}</span>
+                  {title ? title : <div style={{cursor: 'pointer'}} onClick={() => this.props.history.goBack()}>
+                    <ArrowLeftOutlined />
+                    返回
+                      </div>}
                </div>
-                <Breadcrumb>
+                {/* <Breadcrumb>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb> */}
             </div>
         )
     }
