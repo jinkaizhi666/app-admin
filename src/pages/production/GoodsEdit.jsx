@@ -122,7 +122,7 @@ export default class GoodsEdit extends React.Component {
                 types: res
             })
         })
-        let imgs = this.props.location.state.imgs
+        let imgs = this.props.location.query.imgs
         this.initImgList(imgs)
        
 
@@ -181,7 +181,8 @@ export default class GoodsEdit extends React.Component {
     }
 
     render() {
-        let {tags, price, title, desc, created, imgs, removed, type} = this.props.location.state
+        
+        let {tags, price, title, desc, created, imgs, removed, type} = this.props.location.query
         let {imgList, editorState} = this.state
         return (
             <div>

@@ -5,6 +5,7 @@ import menuList from '../../config/menuConfig'
 import {Modal } from 'antd'
 import {ArrowLeftOutlined} from '@ant-design/icons'
 import LinkButton from '../../components/link-button'
+import { connect } from 'react-redux'
 
  class Header extends Component {
     getTitle() {
@@ -39,7 +40,7 @@ import LinkButton from '../../components/link-button'
         return (
             <div  className="admin-header">
                <div className="header-line1">
-                   <span>tom</span>
+                   <span>{this.props.user.userName}</span>
                    <LinkButton onClick={this.logout}>退出</LinkButton>
                </div> 
                <div className="header-line2">
@@ -55,4 +56,6 @@ import LinkButton from '../../components/link-button'
         )
     }
 }
-export default withRouter(Header)
+export default connect(state => ({
+    user: state.user
+}))(withRouter(Header))

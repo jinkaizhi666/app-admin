@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, message, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import logo from "../../assets/imgs/logo.png";
@@ -6,6 +6,8 @@ import moduleName from '../../assets/imgs/react.jpg'
 import "./style.less";
 import store from 'store'
 import {user} from '../../utils/storeKey'
+import api from "../../api";
+import { connect } from "react-redux";
 
 const rules= {
     userName: [
@@ -16,7 +18,7 @@ const rules= {
         },
         {
             min: 4,
-            max: 20,
+            max: 16,
             message: '长度要在四到十六位',
             validateTrigger: 'onChange'
 
@@ -29,22 +31,38 @@ const rules= {
             validateTrigger: 'onChange'
         },
         {
-            pattern: /^[a-zA-Z0-9_]+$/,
-            message: '密码必须是字母,数字,下划线组成',
-            validateTrigger: 'onChange'
-        }
+          min: 5,
+          max: 20,
+          message: '长度要在5到20位',
+          validateTrigger: 'onChange'
+      }
+        // {
+        //     pattern: /^[a-zA-Z0-9_]+$/,
+        //     message: '密码必须是字母,数字,下划线组成',
+        //     validateTrigger: 'onChange'
+        // }
     ]
 }
 
 function Login (props) {
     const [form] = Form.useForm('basic')
     console.log(form)
-    function submit ({userName}) {
-        console.log(userName)
-        props.history.replace('/home')
-        store.set(user, {
-            userName
+    function submit ({userName, password}) {
+      api.login({
+        userName, password
+      }).then( userInfo => {
+        if(!userInfo._id) {
+          return
+        }
+        props.dispatch({
+          type: 'initUserInfo',
+          payload: userInfo
         })
+        store.set(user, userInfo)
+        props.history.replace('/home')
+        message.success('登录成功!')
+      })
+        
     }
 
 
@@ -64,12 +82,12 @@ function Login (props) {
             <Form name="basic" onFinish={submit}>
               <Form.Item
                 name="userName"
-                initialValue="tom"
+                // initialValue="tom"
                 rules={rules.userName}
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
+                  placeholder="account：karry"
                 />
               </Form.Item>
               <Form.Item
@@ -79,14 +97,14 @@ function Login (props) {
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="password：11111111"
                 />
               </Form.Item>
     
               <Form.Item>
                   <div className="submit-btn-wrap">
                       <Button type="primary"  htmlType="submit">
-                      Submit
+                      登录
                   </Button>
                   </div>
               </Form.Item>
@@ -98,4 +116,4 @@ function Login (props) {
 
 
 
-export default Login
+export default connect()(Login)

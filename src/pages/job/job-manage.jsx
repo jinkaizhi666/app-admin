@@ -3,7 +3,7 @@ import {Input, Select, Button, Table, Tag} from 'antd'
 import {PlusCircleFilled} from '@ant-design/icons'
 import api from '../../api/index'
 
-export default class Production extends PureComponent {
+export default class JobManage extends PureComponent {
     state = {
         data: [],
         keyword: ''
@@ -16,22 +16,14 @@ export default class Production extends PureComponent {
             key: 'title',
           },
           {
-            title: '商品描述',
+            title: '工作描述',
             dataIndex: 'desc',
             key: 'desc',
           },
           {
-            title: '产品图',
-            dataIndex: 'imgs',
-            key: 'imgs',
-            render(imgs) {
-                return <img style={{width: '100px'}} src={imgs[0]} />
-            }
-          },
-          {
-            title: '价格',
-            dataIndex: 'price',
-            key: 'price',
+            title: '工资',
+            dataIndex: 'salary',
+            key: 'salary',
             render(text) {
                 return '￥' + text
             }
@@ -41,7 +33,7 @@ export default class Production extends PureComponent {
             dataIndex: 'removed',
             key: 'removed',
             render(text) {
-                return <Tag>{text === 0 ? '在售' : '已下架'}</Tag>
+                return <Tag>{text === 0 ? '进行中' : '已结束'}</Tag>
             }
           },
           {
@@ -50,17 +42,16 @@ export default class Production extends PureComponent {
             key: 'action',
             render: (detail, record, index) => {
                 return <>
-                
                     <Button onClick={ () => this.props.history.push({
-                        pathname: '/production/manage/detail',
+                        pathname: '/job/manage/detail',
                         query: this.state.data[index]
-                    })}>
+                    } )}>
                         详情
                     </Button>
                     <Button  type="primary" onClick={() => this.props.history.push({
-                        pathname: '/production/manage/edit',
+                        pathname: '/job/manage/edit',
                         query: this.state.data[index]
-                    })}>
+                    } )}>
                     编辑信息
                     </Button>
                 </>
@@ -69,7 +60,7 @@ export default class Production extends PureComponent {
     ]
 
     componentDidMount() {
-        api.getGoodsList({
+        api.getJobList({
             params: {
                 admin: true
             }
@@ -98,8 +89,8 @@ export default class Production extends PureComponent {
         )
     }
 
-    searchGoods = () => {
-        api.getGoodsList({
+    searchJob = () => {
+        api.getJobList({
             params: {
                 keyword: this.state.keyword,
                 admin: true
@@ -117,7 +108,6 @@ export default class Production extends PureComponent {
     // }
 
     render() {
-       
         let {data } = this.state
         let columns = this.columns
         return (
@@ -125,7 +115,7 @@ export default class Production extends PureComponent {
             <div style={{display: 'flex', paddingBottom: 10, justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{display: 'flex', alignItems: 'center'}}>
                 <Input value={this.state.keyword} onChange={this.setKeyword} placeholder="请输入搜索内容" />
-                <Button type="primary" onClick={this.searchGoods}>
+                <Button type="primary" onClick={this.searchJob}>
                     搜索
                 </Button>
                 </div>

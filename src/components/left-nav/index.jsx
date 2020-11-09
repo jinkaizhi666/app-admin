@@ -11,7 +11,7 @@ import {
   ReconciliationOutlined,
   KeyOutlined
 } from '@ant-design/icons';
-
+import {connect} from 'react-redux'
 let { SubMenu } = Menu;
 
 let iconMap = {
@@ -59,11 +59,31 @@ function genMenu(menuList) {
     this.menuNode = this.genMenuRedus(menuConfig)
   }
 
+  hasAuth = (item, userInfo) => {
+    let key = item.key
+    if(userInfo.auth == 'admin' || item.isPublic) return true
+    else if( !item.children &&  userInfo.menus.includes(key)) {
+      return true
+    }
+    else if(item.children) {
+      return !!item.children.find( children => userInfo.menus.includes(children.key))
+    }
+    else  {
+      return false
+    }
+  }
+
    genMenuRedus = (menuList) => {
-     console.log(this.props)
     let path = this.props.location.pathname
+    let user = this.props.user
   
     return menuList.reduce((pre, item) => {
+      
+      if(!this.hasAuth(item, {
+        menus: user.roleId.menus,
+        auth: user.roleId.role
+      })) return pre
+
       if (!item.children) {
         pre.push(
           <Menu.Item key={item.key} icon={iconMap[item.icon]}>
@@ -74,7 +94,7 @@ function genMenu(menuList) {
             </Link>
           </Menu.Item>
         ) 
-      } else {
+      } else{
         let childRoute = item.children.find(item => path.startsWith(item.key) )
         if(childRoute) {
             this.openKey = item.key
@@ -113,6 +133,7 @@ function genMenu(menuList) {
           theme="dark"
         >
           {this.menuNode}
+          {console.log('22222222222222222',this.menuNode)}
 
         
         </Menu>
@@ -121,4 +142,6 @@ function genMenu(menuList) {
   }
 }
 
-export default withRouter(LeftNav)
+export default connect(state => ({
+  user: state.user
+}))(withRouter(LeftNav))

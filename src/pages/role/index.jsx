@@ -105,6 +105,8 @@ export default class Role extends PureComponent {
             }
         }
     }
+    
+ 
 
   render() {
     let { data, currentRole } = this.state;

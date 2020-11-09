@@ -15,7 +15,7 @@ let li = {
 }
 export default class GoodsDetail extends Component {
     render() {
-        let {imgs, desc, tags, type, sellerId, title,created, removed} = this.props.location.state
+        let {imgs, desc, tags, type, sellerId, title,created, removed} = this.props.location.query
         return (
             <div>
                 <ul style={{marginLeft: 20}}>
